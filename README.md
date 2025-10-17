@@ -1,71 +1,116 @@
-# nunjucks-hover README
+# Nunjucks BNPP Helper
 
-This is the README for your extension "nunjucks-hover". After writing up a brief description, we recommend including the following sections.
+> Improve the developer experience when working with Nunjucks templates.
 
-## Features
+This extension is designed for in-house use and is not published on the VS Code Marketplace.
+As so, the implementation is fairly rudimentary and may result in some occasional bugs.
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+## Features Overview
 
-For example if there is an image subfolder under your extension project workspace:
+- [Hover Informations](#hover-informations)
+- [Go to Definition](#go-to-definition)
+- [Auto Completion](#auto-completion)
+- [Document Links](#document-links)
+- [Command Palette](#command-palette)
+- [Extension Settings](vscode://settings/)
 
-\!\[feature X\]\(images/feature-x.png\)
+## Installation
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+1. Download the ".vsix" file from the [latest release](https://github.com/honoredup/nunjucks-bnpp-helper/releases/latest) panel.
+2. In vscode, in the command palette (`Cmd+Shift+P` / `Ctrl+Shift+P`), type: `Install from VSIX`.
+3. Once installed, you will find the extension and its documentation in the Extension panel (`Cmd+Shift+X` / `Ctrl+Shift+X`)
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
+The following extension must be installed: [Better Jinja](vscode:extension/samuelcolvin.jinjahtml).
+During installation, vscode will prompt you to install it automatically.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+Initial version with basic implementation of Hover, Go to Definition, Auto completion and Document links.
 
 ---
 
-## Following extension guidelines
+# Features Documentation
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+## Hover Informations
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+The hover feature can be disabled in the extension [settings](vscode://settings/nunjucks-bnpp-helper.hover.enabled).
 
-## Working with Markdown
+### Macro
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+Displays documentation extracted from the comment immediately above each macro definition.
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+<figure align="center">
+  <img src="images/examples/hover.legacy.declaration.png" width="250" alt="Legacy comments declaration example" />
+  <figcaption>Legacy comments declaration example</figcaption>
+</figure>
 
-## For more information
+<figure align="center">
+  <img src="images/examples/hover.legacy.hover.png" width="350" alt="Legacy comments hover example" />
+  <figcaption>Legacy comments hover example</figcaption>
+</figure>
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+Legacy comments are comments that were written before this extension was created.
+They always begin with “Param:” and are structured as shown in the example above.
+These comments are rendered as typescript, and if “* @” is detected ; and this “/**” syntax is added to render the entire comment as a comment (for visual reasons).
+You can use legacy comments if the entire comment is written in typescript.
 
-**Enjoy!**
+### Imports
+
+Displays the name of the module :
+
+<figure align="center">
+  <img src="images/examples/hover.imports.png" width="250" alt="Import object hover example" />
+  <figcaption>Import object hover example</figcaption>
+</figure>
+
+Get detailed path of the import :
+
+<figure align="center">
+  <img src="images/examples/hover.imports.str.png" width="550" alt="Import path hover example" />
+  <figcaption>Import path hover example</figcaption>
+</figure>
+
+
+## Go to Definition
+
+- You can right click and `Go to Definition` or `Cmd+Click`/`Ctrl+Click` on :
+    - A macro call → jumps to its definition.
+    - An import object → jumps to its definition.
+    - An import path → opens the imported Nunjucks file.
+- Works across files and within included templates.
+
+
+## Auto Completion
+
+Autocompletion works only in nunjuck blocks.
+It shows current import objects or all available macro.
+On an import object it shows the available macro from that file.
+
+
+## Document Links
+
+The feature can be disabled in the extension [settings](vscode://settings/nunjucks-bnpp-helper.docLinks.enabled).
+
+In a nunjuck file all file paths are automatically detected and fuzzy searched through the project.
+If a file is found, vscode underlines it and you can `Cmd+Click`/`Ctrl+Click` to open it.
+
+<figure align="center">
+  <img src="images/examples/doc-links.png" width="350" alt="Document link to an image" />
+  <figcaption>Document link to an image</figcaption>
+</figure>
+
+You can also change [where to search](vscode://settings/nunjucks-bnpp-helper.docLinks.includePaths) and the folders to [exclude](vscode://settings/nunjucks-bnpp-helper.docLinks.excludePaths).
+
+
+## Command Palette
+
+To open the vscode Command Palette use `Cmd+Shift+P` / `Ctrl+Shift+P`.
+
+Available commands are :
+
+- **Restart**: In the case of any bug, try this command. It clears all extension caches and restarts file parsing.
+

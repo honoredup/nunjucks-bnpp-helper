@@ -1,25 +1,92 @@
 {
-  "name": "nunjucks-hover",
-  "displayName": "nunjucks-hover",
-  "description": "",
-  "version": "0.0.1",
+  "name": "nunjucks-bnpp-helper",
+  "publisher": "bnpp-hb-team-integrateur",
+  "displayName": "Nunjucks BNPP Helper",
+  "description": "Improve the developer experience when working with Nunjucks templates.",
+	"icon": "images/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/honoredup/nunjucks-bnpp-helper.git"
+  },
+  "version": "1.0.0",
   "engines": {
-    "vscode": "^1.104.0"
+    "vscode": "^1.86.0"
   },
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "author": {
+    "name": "Honore Dupieu",
+    "email": "honore.dupieu@externe.bnpparibas.com"
+  },
+  "activationEvents": [
+    "onLanguage:nunjucks"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
+    "languages": [
+      {
+        "id": "nunjucks",
+        "extensions": [
+          ".njk"
+        ],
+        "aliases": [
+          "Nunjucks"
+        ]
+      }
+    ],
+    "hover": [
+      {
+        "language": "nunjucks"
+      }
+    ],
     "commands": [
       {
-        "command": "nunjucks-hover.helloWorld",
-        "title": "Hello World"
+        "command": "nunjucks-bnpp-helper.restart",
+        "title": "Restart",
+        "category": "NunjuckBNPPHelper",
+        "when": "editorLangId == nunjucks"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Nunjucks BNPP Helper",
+      "properties": {
+        "nunjucks-bnpp-helper.docLinks.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Specifies whether to provide any automatic detection of links to other files. (Detected links are underlined)"
+        },
+        "nunjucks-bnpp-helper.docLinks.includePaths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "**/*"
+          ],
+          "description": "List of folders to search for automatic detection of links to files."
+        },
+        "nunjucks-bnpp-helper.docLinks.excludePaths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "**/node_modules/**",
+            "**/dist/**"
+          ],
+          "description": "List of folders to exclude from the search for automatic detection of links to files."
+        },
+        "nunjucks-bnpp-helper.hover.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Specifies whether to provide any hovers"
+        }
+      }
+    }
   },
   "scripts": {
+    "build:vsix": "vsce package",
     "vscode:prepublish": "npm run package",
     "compile": "npm run check-types && npm run lint && node esbuild.js",
     "watch": "npm-run-all -p watch:*",
@@ -34,16 +101,24 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.104.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
+    "@types/vscode": "^1.86.0",
     "@typescript-eslint/eslint-plugin": "^8.45.0",
     "@typescript-eslint/parser": "^8.45.0",
-    "eslint": "^9.36.0",
-    "esbuild": "^0.25.10",
-    "npm-run-all": "^4.1.5",
-    "typescript": "^5.9.3",
     "@vscode/test-cli": "^0.0.11",
-    "@vscode/test-electron": "^2.5.2"
-  }
+    "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^3.6.2",
+    "esbuild": "^0.25.10",
+    "eslint": "^9.36.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "vscode-oniguruma": "^2.0.1",
+    "vscode-textmate": "^9.2.1"
+  },
+  "extensionDependencies": [
+    "samuelcolvin.jinjahtml"
+  ]
 }
